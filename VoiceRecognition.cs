@@ -71,7 +71,7 @@ namespace Arnold_Co
             {
                 if (text.Contains(Program.activePersona.name.ToLower()))
                 {
-                    //Arstate = ListeningState.Listening;
+                    state = ListeningState.Listening;
                     Program.activePersona.Speak("What the fuck do you want");
                     System.Media.SystemSounds.Hand.Play();
                     wakeTime = DateTime.Now;
@@ -89,9 +89,38 @@ namespace Arnold_Co
                     return;
                 }
 
+                HandleCommand(text);
+
             }
 
         }
+        private bool FuzzyMatch(string text, string command)
+        {
+            text = text.ToLower();
+            command = command.ToLower();
+
+            if (text.Contains(command)) return true;
+
+            return text.Similarity(command) >= 0.75f;
+        }
+
+        private void HandleCommand(string text)
+        {
+            foreach(var action in ActionManager.actions)
+            {
+                foreach(var keyword in action.keywords)
+                {
+                    if(FuzzyMatch(text, keyword))
+                    {
+                        Debug.WriteLine($"Action matched: {action.name} for command: {text}");
+                        action.OnCalled();
+                        state = ListeningState.Idle;
+                        return;
+                    }
+                }
+            }
+        }
+
 
         public static void TranscriptionTest()
         {

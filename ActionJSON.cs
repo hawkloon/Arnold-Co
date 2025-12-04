@@ -15,12 +15,14 @@ namespace Arnold_Co
         public string name;
         public bool useJsonResponses;
         public Dictionary<string, string[]> speakerResponses;
+        public string[] keywords;
         public ActionType actionType;
 
         public virtual void Init()
         {
 
         }
+
 
         public ActionJSON()
         {
@@ -37,7 +39,7 @@ namespace Arnold_Co
                     Program.activePersona.Speak(response);
                 }
             }
-        }
+        }       
 
         public static void WriteTestJSON()
         {
@@ -46,6 +48,7 @@ namespace Arnold_Co
             test.useJsonResponses = true;
             test.speakerResponses = new Dictionary<string, string[]>();
             test.speakerResponses.Add("Speaker1", new string[] { "Hello there!", "How are you?" });
+            test.keywords = new string[] { "hello", "hi", "greetings" };
             test.actionType = ActionType.Predetermined;
 
             var serial = JsonConvert.SerializeObject(test, Program.serializerSettings);

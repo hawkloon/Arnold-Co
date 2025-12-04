@@ -25,6 +25,9 @@ namespace Arnold_Co
         private static string personaID = "Arnold";
 
         public static Persona activePersona;
+
+
+        public static List<string> allPersonaIDs;
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -37,23 +40,39 @@ namespace Arnold_Co
             form = new Form1();
             SetUpContextMenu();
             RunRPC();
-            InitializePersona();
+            GetAllPersonas();
+            Debug.WriteLine("Available Personas: " + allPersonaIDs.Count);
+            LoadPersona(personaID);
             var recognizer = new VoiceRecognition();
             recognizer.Init();
-            ActionJSON.WriteTestJSON();
-            PersonaJSON.WriteTestJSON();
+            ActionManager.LoadAllActions();
+            ActionJSON.WriteTestJSON();                                                                           
             Application.Run();
         }
-
-        private static void InitializePersona()
+         
+        private static void GetAllPersonas()
         {
-            var dir = $"Personas\\Persona_{personaID}.json";
+            var dir = "Personas";
+            var personaFiles = Directory.GetFiles(dir, "Persona_*.json");
+            List<string> personaIDs = new List<string>();
+            foreach (var personaFile in personaFiles)
+            {
+                var fileName = Path.GetFileNameWithoutExtension(personaFile);
+                var id = fileName.Replace("Persona_", "");
+                personaIDs.Add(id);
+            }
+            allPersonaIDs = personaIDs;
+        }
+
+        public static void LoadPersona(string id)
+        {
+            activePersona = null;
+            var dir = $"Personas\\Persona_{id}.json";
             var personaFile = File.ReadAllText(dir);
             var json = JsonConvert.DeserializeObject<PersonaJSON>(personaFile, serializerSettings);
             Persona persona = new Persona(json);
 
             activePersona = persona;
-
         }
         public static void RunRPC() => RPC.SetUp();
         private static void SetUpContextMenu()
