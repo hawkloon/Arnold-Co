@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Arnold_Co
@@ -20,15 +22,10 @@ namespace Arnold_Co
 
         public virtual void Init()
         {
-
+            Debug.WriteLine("Cum");
         }
 
-
-        public ActionJSON()
-        {
-            Init();
-        }
-        public virtual void OnCalled()
+        public virtual void OnCalled(string text)
         {
             if (useJsonResponses)
             {

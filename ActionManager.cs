@@ -22,6 +22,7 @@ namespace Arnold_Co
                 ActionJSON json = JsonConvert.DeserializeObject<ActionJSON>(File.ReadAllText(actionFile), Program.serializerSettings);
                 Debug.WriteLine(json.name);
                 actions.Add(json);
+                json.Init();
             }
 
         }

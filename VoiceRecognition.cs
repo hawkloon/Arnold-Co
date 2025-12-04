@@ -113,7 +113,7 @@ namespace Arnold_Co
                     if(FuzzyMatch(text, keyword))
                     {
                         Debug.WriteLine($"Action matched: {action.name} for command: {text}");
-                        action.OnCalled();
+                        action.OnCalled(text);
                         state = ListeningState.Idle;
                         return;
                     }
