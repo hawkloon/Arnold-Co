@@ -27,11 +27,17 @@ namespace Arnold_Co
 
         public virtual void OnCalled(string text)
         {
-            if (useJsonResponses)
+            if (useJsonResponses && speakerResponses != null)
             {
-                if (speakerResponses[Program.activePersona.name] != null)
+                if (speakerResponses.ContainsKey(Program.activePersona.name))
                 {
                     var respArray = speakerResponses[Program.activePersona.name];
+                    string response = respArray.PickRandom();
+                    Program.activePersona.Speak(response);
+                }
+                else
+                {
+                    var respArray = speakerResponses["Default"];
                     string response = respArray.PickRandom();
                     Program.activePersona.Speak(response);
                 }

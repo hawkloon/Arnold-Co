@@ -44,12 +44,14 @@ namespace Arnold_Co
             {
                 WaveFormat = new WaveFormat(16000, 16, 1)
             };
-
             waveIn.DataAvailable += WaveIn_DataAvailable;
 
             waveIn.StartRecording();
         }
+        public  void SwitchInput()
+        {
 
+        }
         private void WaveIn_DataAvailable(object? sender, WaveInEventArgs e)
         {
             if (!recognizer.AcceptWaveform(e.Buffer, e.BytesRecorded))

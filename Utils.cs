@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NumSharp;
+using Soenneker.Utils.Random;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,7 +10,7 @@ namespace Arnold_Co
     {
         public static T PickRandom<T>(this T[] array)
         {
-            var index = Random.Shared.Next(array.Length);
+            var index = RandomUtil.Next(array.Length);
             return array[index];
         }
 
@@ -17,7 +19,7 @@ namespace Arnold_Co
             if (list.Count == 0)
                 throw new InvalidOperationException("Cannot pick a random element from an empty list.");
 
-            var index = Random.Shared.Next(list.Count);
+            var index = RandomUtil.Next(list.Count);
             return list[index];
         }
 

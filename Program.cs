@@ -3,6 +3,7 @@ using KokoroSharp;
 using KokoroSharp.Core;
 using Microsoft.VisualBasic.ApplicationServices;
 using Newtonsoft.Json;
+using OpenTK.Mathematics;
 using System.Diagnostics;
 using System.DirectoryServices;
 using System.Security.Cryptography;
@@ -22,7 +23,7 @@ namespace Arnold_Co
             TypeNameHandling = TypeNameHandling.Objects
         };
         static Form1 form;
-        private static string personaID = "Arnold";
+        private static string personaID = "John";
 
         public static Persona activePersona;
 
@@ -32,11 +33,17 @@ namespace Arnold_Co
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             //ApplicationConfiguration.Initialize();
+
+            if (args.Contains("--alarm"))
+            {
+                Application.Run(new Form2());
+                return;
+            }
             form = new Form1();
             SetUpContextMenu();
             RunRPC();
@@ -66,8 +73,13 @@ namespace Arnold_Co
 
         public static void LoadPersona(string id)
         {
-            activePersona = null;
             var dir = $"Personas\\Persona_{id}.json";
+            if (!Path.Exists(dir))
+            {
+                Debug.WriteLine("Invalid Persona");
+                return;
+            }
+            activePersona = null;
             var personaFile = File.ReadAllText(dir);
             var json = JsonConvert.DeserializeObject<PersonaJSON>(personaFile, serializerSettings);
             Persona persona = new Persona(json);
@@ -77,7 +89,7 @@ namespace Arnold_Co
         public static void RunRPC() => RPC.SetUp();
         private static void SetUpContextMenu()
         {
-            NotifyIcon notifyIcoin = new NotifyIcon
+            NotifyIcon notifyIcon = new NotifyIcon
             {
                 Icon = form.arnoldIcon.Icon,
                 ContextMenuStrip = form.trayContextMenu,
