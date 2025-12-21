@@ -6,11 +6,14 @@ using Newtonsoft.Json;
 using OpenTK.Mathematics;
 using System.Diagnostics;
 using System.DirectoryServices;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using static Google.Rpc.Context.AttributeContext.Types;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 namespace Arnold_Co
 {
@@ -23,11 +26,11 @@ namespace Arnold_Co
             TypeNameHandling = TypeNameHandling.Objects
         };
         static Form1 form;
-        private static string personaID = "John";
+        private static string personaID = "Arnold";
 
         public static Persona activePersona;
 
-
+        public static VoiceRecognition recognizer;
         public static List<string> allPersonaIDs;
         /// <summary>
         ///  The main entry point for the application.
@@ -50,10 +53,10 @@ namespace Arnold_Co
             GetAllPersonas();
             Debug.WriteLine("Available Personas: " + allPersonaIDs.Count);
             LoadPersona(personaID);
-            var recognizer = new VoiceRecognition();
+            recognizer = new VoiceRecognition();
             recognizer.Init();
             ActionManager.LoadAllActions();
-            ActionJSON.WriteTestJSON();                                                                           
+            ActionJSON.WriteTestJSON();
             Application.Run();
         }
          

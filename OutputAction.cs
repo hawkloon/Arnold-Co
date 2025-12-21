@@ -26,9 +26,9 @@ namespace Arnold_Co
 
 
         public string[] devices = ["output speakers", "output headphone"];
-        public override void OnCalled(string text)
+        public override void OnCalled(string text, Dictionary<string, object> parsedParams)
         {
-            base.OnCalled(text);
+            base.OnCalled(text, parsedParams);
             Program.activePersona.Speak("Give me a moment you gimp");
             string phrase = "";
             foreach (var keyword in devices)

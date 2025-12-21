@@ -30,24 +30,30 @@ namespace Arnold_Co
 
         private ListeningState state = ListeningState.Idle;
         private DateTime wakeTime;
+        private WaveInEvent waveIn;
+
         public void Init()
         {
             Vosk.Vosk.SetLogLevel(0);
+
             Model model = new Model("models/vosk-model-small-en-us-0.15");
-            Debug.WriteLine("Speech Recog Model loaded");
             recognizer = new VoskRecognizer(model, 16000.0f);
+
             recognizer.SetMaxAlternatives(0);
             recognizer.SetWords(true);
             recognizer.SetPartialWords(true);
 
-            var waveIn = new WaveInEvent
+            waveIn = new WaveInEvent
             {
                 WaveFormat = new WaveFormat(16000, 16, 1)
             };
-            waveIn.DataAvailable += WaveIn_DataAvailable;
 
+            waveIn.DataAvailable += WaveIn_DataAvailable;
             waveIn.StartRecording();
+
+            Debug.WriteLine("Speech Recog Model loaded");
         }
+
         public  void SwitchInput()
         {
 
@@ -73,10 +79,7 @@ namespace Arnold_Co
             {
                 if (text.Contains(Program.activePersona.name.ToLower()))
                 {
-                    state = ListeningState.Listening;
-                    Program.activePersona.Speak("What the fuck do you want");
-                    System.Media.SystemSounds.Hand.Play();
-                    wakeTime = DateTime.Now;
+                    Wake();
                     return;
                 }
                 return;
@@ -96,6 +99,15 @@ namespace Arnold_Co
             }
 
         }
+
+
+        public void Wake()
+        {
+            state = ListeningState.Listening;
+            Program.activePersona.Speak("What the fuck do you want");
+            System.Media.SystemSounds.Hand.Play();
+            wakeTime = DateTime.Now;
+        }
         private bool FuzzyMatch(string text, string command)
         {
             text = text.ToLower();
@@ -105,24 +117,60 @@ namespace Arnold_Co
 
             return text.Similarity(command) >= 0.75f;
         }
+        private Dictionary<string, object> ParseParameters(
+    string text,
+    ActionJSON action)
+        {
+            var result = new Dictionary<string, object>();
+            var words = text.ToLower().Split(' ');
+
+            if (action.parameters == null)
+                return result;
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                foreach (var param in action.parameters)
+                {
+                    if (words[i] == param.name && i + 1 < words.Length)
+                    {
+                        string valueWord = words[i + 1];
+
+                        object value = param.type switch
+                        {
+                            "int" => int.TryParse(valueWord, out var n) ? n : null,
+                            "string" => valueWord,
+                            _ => null
+                        };
+
+                        if (value != null)
+                            result[param.name] = value;
+                    }
+                }
+            }
+
+            return result;
+        }
 
         private void HandleCommand(string text)
         {
-            foreach(var action in ActionManager.actions)
+            Debug.WriteLine(text);
+            foreach (var action in ActionManager.actions)
             {
-                foreach(var keyword in action.keywords)
+                foreach (var keyword in action.keywords)
                 {
-                    if(FuzzyMatch(text, keyword))
+                    if (FuzzyMatch(text, keyword))
                     {
-                        Debug.WriteLine($"Action matched: {action.name} for command: {text}");
-                        action.OnCalled(text);
+                        Debug.WriteLine($"Action matched: {action.name}");
+
+                        var parameters = ParseParameters(text, action);
+
+                        action.OnCalled(text, parameters);
                         state = ListeningState.Idle;
                         return;
                     }
                 }
             }
         }
-
 
         public static void TranscriptionTest()
         {

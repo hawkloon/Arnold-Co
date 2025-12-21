@@ -14,18 +14,28 @@ namespace Arnold_Co
     }
     public class ActionJSON
     {
+        public class ActionParameter
+        {
+            public string name;          // e.g. "week"
+            public string type;          // "int", "string", etc.
+            public bool optional;
+        }
         public string name;
         public bool useJsonResponses;
         public Dictionary<string, string[]> speakerResponses;
         public string[] keywords;
         public ActionType actionType;
 
+        public bool useParameters;
+        public ActionParameter[] parameters;
+
         public virtual void Init()
         {
             Debug.WriteLine("Cum");
+            WriteTestJSON();
         }
 
-        public virtual void OnCalled(string text)
+        public virtual void OnCalled(string text, Dictionary<string, object> parsedParams)
         {
             if (useJsonResponses && speakerResponses != null)
             {
@@ -53,6 +63,11 @@ namespace Arnold_Co
             test.speakerResponses.Add("Speaker1", new string[] { "Hello there!", "How are you?" });
             test.keywords = new string[] { "hello", "hi", "greetings" };
             test.actionType = ActionType.Predetermined;
+            test.parameters = new ActionParameter[]
+            {
+                new ActionParameter() { name = "param1", type = "string", optional = false },
+                new ActionParameter() { name = "param2", type = "int", optional = true }
+            };
 
             var serial = JsonConvert.SerializeObject(test, Program.serializerSettings);
             File.WriteAllText("Action_Test.json", serial);

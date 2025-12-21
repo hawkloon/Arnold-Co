@@ -40,11 +40,12 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Comic Sans MS", 24F, FontStyle.Italic, GraphicsUnit.Point, 0);
             button1.ForeColor = SystemColors.HotTrack;
-            button1.Location = new Point(12, 181);
+            button1.Location = new Point(589, 313);
             button1.Name = "button1";
             button1.Size = new Size(208, 84);
             button1.TabIndex = 0;
             button1.Text = "Stop Alarm";
+            button1.TextAlign = ContentAlignment.BottomCenter;
             button1.TextImageRelation = TextImageRelation.TextBeforeImage;
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
@@ -53,10 +54,13 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(232, 450);
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(833, 450);
             Controls.Add(button1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form2";
-            Text = "Form2";
+            Text = "Arnold Alarm";
             Load += Form2_Load;
             ResumeLayout(false);
         }

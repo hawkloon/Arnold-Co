@@ -21,5 +21,15 @@ namespace Arnold_Co
         {
             VoiceRecognition.TranscriptionTest();
         }
+
+        private void clearAlarmsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RoutineAction.ClearAllAlarms();
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

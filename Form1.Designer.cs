@@ -36,16 +36,17 @@
             muteToolStripMenuItem = new ToolStripMenuItem();
             quitToolStripMenuItem = new ToolStripMenuItem();
             speechTestToolStripMenuItem = new ToolStripMenuItem();
-            arnoldIcon = new NotifyIcon(components);
             transcribeToolStripMenuItem = new ToolStripMenuItem();
+            clearAlarmsToolStripMenuItem = new ToolStripMenuItem();
+            arnoldIcon = new NotifyIcon(components);
             trayContextMenu.SuspendLayout();
             SuspendLayout();
             // 
             // trayContextMenu
             // 
-            trayContextMenu.Items.AddRange(new ToolStripItem[] { settingsToolStripMenuItem, openPromptToolStripMenuItem, muteToolStripMenuItem, quitToolStripMenuItem, speechTestToolStripMenuItem, transcribeToolStripMenuItem });
+            trayContextMenu.Items.AddRange(new ToolStripItem[] { settingsToolStripMenuItem, openPromptToolStripMenuItem, muteToolStripMenuItem, speechTestToolStripMenuItem, transcribeToolStripMenuItem, clearAlarmsToolStripMenuItem, quitToolStripMenuItem });
             trayContextMenu.Name = "trayContextMenu";
-            trayContextMenu.Size = new Size(181, 158);
+            trayContextMenu.Size = new Size(181, 180);
             // 
             // settingsToolStripMenuItem
             // 
@@ -70,6 +71,7 @@
             quitToolStripMenuItem.Name = "quitToolStripMenuItem";
             quitToolStripMenuItem.Size = new Size(180, 22);
             quitToolStripMenuItem.Text = "Quit";
+            quitToolStripMenuItem.Click += quitToolStripMenuItem_Click;
             // 
             // speechTestToolStripMenuItem
             // 
@@ -78,17 +80,24 @@
             speechTestToolStripMenuItem.Text = "Speech Test";
             speechTestToolStripMenuItem.Click += speechTestToolStripMenuItem_Click;
             // 
-            // arnoldIcon
-            // 
-            arnoldIcon.Icon = (Icon)resources.GetObject("arnoldIcon.Icon");
-            arnoldIcon.Text = "ArnoldIcon";
-            // 
             // transcribeToolStripMenuItem
             // 
             transcribeToolStripMenuItem.Name = "transcribeToolStripMenuItem";
             transcribeToolStripMenuItem.Size = new Size(180, 22);
             transcribeToolStripMenuItem.Text = "Transcribe";
             transcribeToolStripMenuItem.Click += transcribeToolStripMenuItem_Click;
+            // 
+            // clearAlarmsToolStripMenuItem
+            // 
+            clearAlarmsToolStripMenuItem.Name = "clearAlarmsToolStripMenuItem";
+            clearAlarmsToolStripMenuItem.Size = new Size(180, 22);
+            clearAlarmsToolStripMenuItem.Text = "Clear Alarms";
+            clearAlarmsToolStripMenuItem.Click += clearAlarmsToolStripMenuItem_Click;
+            // 
+            // arnoldIcon
+            // 
+            arnoldIcon.Icon = (Icon)resources.GetObject("arnoldIcon.Icon");
+            arnoldIcon.Text = "ArnoldIcon";
             // 
             // Form1
             // 
@@ -112,5 +121,6 @@
         internal ContextMenuStrip trayContextMenu;
         private ToolStripMenuItem speechTestToolStripMenuItem;
         private ToolStripMenuItem transcribeToolStripMenuItem;
+        private ToolStripMenuItem clearAlarmsToolStripMenuItem;
     }
 }

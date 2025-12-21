@@ -27,6 +27,7 @@ namespace Arnold_Co
         private void button1_Click(object sender, EventArgs e)
         {
             player.Stop();
+            MessageBox.Show("you are a fucking piece of shit cunt", "Kill yourself faggot",  MessageBoxButtons.OK, MessageBoxIcon.Information);
             Application.Exit();
         }
 
@@ -49,13 +50,6 @@ namespace Arnold_Co
 
         private void ShakeTick(object sender, EventArgs e)
         {
-            if (shakeCount >= shakeMax)
-            {
-                shakeTimer.Stop();
-                this.Location = originalLocation;
-                return;
-            }
-
             // Random direction shake
             int offsetX = (shakeCount % 2 == 0) ? shakeAmount : -shakeAmount;
             this.Location = new Point(originalLocation.X + offsetX, originalLocation.Y);
