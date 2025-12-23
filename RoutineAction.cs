@@ -46,10 +46,9 @@ namespace Arnold_Co
                 ts.RootFolder.RegisterTaskDefinition(taskName, td);
             }
         }
-        public override void OnCalled(string text, Dictionary<string, object> parsedParams)
+        public override void OnCalled(string text, string parsedParams)
         {
             base.OnCalled(text, parsedParams);
-            if(parsedParams.Count > 0) Debug.WriteLine(parsedParams.ElementAt(0).Value);
             SetShitUpDawg();   
         }
 
@@ -57,9 +56,9 @@ namespace Arnold_Co
         public async TTask SetShitUpDawg()
         {
             ClearAllAlarms();
-
-            SetAlarm(8, 00);
-            SetAlarm(8, 10);
+            Program.activePersona.Speak("4 FUCKING 30, BALLS");
+            SetAlarm(4, 30);
+            SetAlarm(4, 45);
             OutputAction.ChangeOutput(OutputAction.speakerID);
         
             await TTask.Delay(5000);

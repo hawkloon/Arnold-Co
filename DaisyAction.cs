@@ -7,7 +7,7 @@ namespace Arnold_Co
 {
     internal class DaisyAction : ActionJSON
     {
-        public override void OnCalled(string text, Dictionary<string, object> parsedParams)
+        public override void OnCalled(string text, string parsedParams)
         {
             base.OnCalled(text, parsedParams);
             System.Diagnostics.Process.Start(new ProcessStartInfo

@@ -35,7 +35,7 @@ namespace Arnold_Co
             WriteTestJSON();
         }
 
-        public virtual void OnCalled(string text, Dictionary<string, object> parsedParams)
+        public virtual void OnCalled(string text, string parsedParams)
         {
             if (useJsonResponses && speakerResponses != null)
             {

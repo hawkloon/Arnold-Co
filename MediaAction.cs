@@ -37,7 +37,7 @@ namespace Arnold_Co
     }
     internal class MediaAction : ActionJSON
     {
-        public override void OnCalled(string text, Dictionary<string, object> parsedParams)
+        public override void OnCalled(string text, string parsedParams)
         {
             base.OnCalled(text, parsedParams);
             if(text.Contains("play") || text.Contains("pause") || text.Contains("toggle"))

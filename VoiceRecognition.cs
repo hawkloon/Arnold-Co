@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Vosk;
 namespace Arnold_Co
@@ -117,39 +118,6 @@ namespace Arnold_Co
 
             return text.Similarity(command) >= 0.75f;
         }
-        private Dictionary<string, object> ParseParameters(
-    string text,
-    ActionJSON action)
-        {
-            var result = new Dictionary<string, object>();
-            var words = text.ToLower().Split(' ');
-
-            if (action.parameters == null)
-                return result;
-
-            for (int i = 0; i < words.Length; i++)
-            {
-                foreach (var param in action.parameters)
-                {
-                    if (words[i] == param.name && i + 1 < words.Length)
-                    {
-                        string valueWord = words[i + 1];
-
-                        object value = param.type switch
-                        {
-                            "int" => int.TryParse(valueWord, out var n) ? n : null,
-                            "string" => valueWord,
-                            _ => null
-                        };
-
-                        if (value != null)
-                            result[param.name] = value;
-                    }
-                }
-            }
-
-            return result;
-        }
 
         private void HandleCommand(string text)
         {
@@ -170,6 +138,20 @@ namespace Arnold_Co
                     }
                 }
             }
+        }
+
+        public string ParseParameters(string input, ActionJSON action)
+        {
+            input = input.Trim();
+
+            foreach(var p in action.keywords)
+            {
+                if(input.StartsWith(p))
+                    return input.Substring(p.Length).Trim();
+            }
+
+
+            return input;
         }
 
         public static void TranscriptionTest()

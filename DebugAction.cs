@@ -8,7 +8,7 @@ namespace Arnold_Co
 {
     internal class DebugAction : ActionJSON
     {
-        public override void OnCalled(string text, Dictionary<string, object> parsedParams)
+        public override void OnCalled(string text, string parsedParams)
         {
             base.OnCalled(text, parsedParams);
             int deviceCount = WaveIn.DeviceCount;

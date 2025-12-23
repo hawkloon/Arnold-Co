@@ -6,13 +6,13 @@ namespace Arnold_Co
 {
     internal class TimeAction : ActionJSON
     {
-        public override void OnCalled(string text, Dictionary<string, object> parsedParams)
+        public override void OnCalled(string text, string parsedParams)
         {
             base.OnCalled(text, parsedParams);
             TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
             string t = time.ToString("hh:mm tt");
 
-            Program.activePersona.Speak("Faggot. The current time is " + t);
+            Program.activePersona.Speak("The current time is " + t);
         }
     }
 }

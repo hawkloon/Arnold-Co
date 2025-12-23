@@ -7,7 +7,7 @@ namespace Arnold_Co
 {
     public class SwitchAction : ActionJSON
     {
-        public override void OnCalled(string text, Dictionary<string, object> parsedParams)
+        public override void OnCalled(string text, string parsedParams)
         {
             base.OnCalled(text, parsedParams);
             Debug.WriteLine("Switching");

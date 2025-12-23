@@ -40,11 +40,33 @@ namespace Arnold_Co
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            //ApplicationConfiguration.Initialize();
 
             if (args.Contains("--alarm"))
             {
                 Application.Run(new Form2());
+                return;
+            }
+
+            if (args.Contains("--addexe"))
+            {
+                var jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "allowed_executables.json");
+                MessageBox.Show(string.Join("\n", args));
+                JsonWhitelist whitelist;
+                if (Path.Exists(jsonPath))
+                {
+                    whitelist =  JsonConvert.DeserializeObject<JsonWhitelist>(File.ReadAllText(jsonPath), serializerSettings);
+
+                }
+                else
+                {
+                    whitelist = new JsonWhitelist();
+                    whitelist.whitelist = new Dictionary<string, string>();
+                }
+                whitelist.whitelist.Add(args[1], Path.GetFileNameWithoutExtension(args[1]));
+                var val = JsonConvert.SerializeObject(whitelist, serializerSettings);
+                File.WriteAllText(jsonPath, val);
+
+
                 return;
             }
             form = new Form1();
