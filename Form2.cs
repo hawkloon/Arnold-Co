@@ -27,7 +27,7 @@ namespace Arnold_Co
         private void button1_Click(object sender, EventArgs e)
         {
             player.Stop();
-            MessageBox.Show("you are a fucking piece of shit cunt", "Kill yourself faggot",  MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Another wonderful day of apt existence", "Rise and shine honeybuns",  MessageBoxButtons.OK, MessageBoxIcon.Information);
             Application.Exit();
         }
 
